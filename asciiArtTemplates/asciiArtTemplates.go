@@ -16,7 +16,7 @@ func ReadTemplates(Store *[128][8]string, style string) {
 	}
 
 	f, err := os.Open("asciiArtTemplates/" + style + ".txt")
-	check("Error opening file:", err)
+	Check("Error opening file:", err)
 	defer f.Close()
 
 	scanner := bufio.NewScanner(f)
@@ -31,7 +31,7 @@ func ReadTemplates(Store *[128][8]string, style string) {
 }
 
 // Проверяет ошибку, выводит ее на консоль с сопроводительным сообщеением в строке, если она есть
-func check(s string, e error) {
+func Check(s string, e error) {
 	if e != nil {
 		log.Fatalln(s, e.Error())
 	}
@@ -53,7 +53,7 @@ func TxtFileCheck(style string) bool {
 	}
 
 	file, err := os.Open("asciiArtTemplates/" + style + ".txt")
-	check("Error opening file:", err)
+	Check("Error opening file:", err)
 	defer file.Close()
 	buf := make([]byte, 30*1024)
 	sha256 := sha256.New()
