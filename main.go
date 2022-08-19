@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"flag"
+	"fmt"
 	"os"
 	"reverse/asciiArtTemplates"
 )
@@ -16,12 +17,54 @@ func main() {
 	asciiArtTemplates.Check("Error opening the file to be reversed:", err)
 
 	ReadAscii(f)
+
+	for _, asciiString := range AsciiArt {
+		fmt.Println(Decypher(asciiString))
+	}
 }
 
 var (
 	Store    [128][8]string // Переменная для хранения символов из файла
 	AsciiArt [][8]string
 )
+
+func Decypher(asciiString [8]string) (regularString string) {
+
+	index := 0
+
+outer:
+	for {
+
+		for asI, asChar := range Store {
+			found := true
+
+		inner:
+			for j := 0; j < 8; j++ {
+				switch {
+				case asChar[0] == "":
+					found = false
+					break inner
+				case index+len(asChar[j]) > len(asciiString[j]):
+					found = false
+					break inner
+				case asChar[j] != asciiString[j][index:index+len(asChar[j])]:
+					found = false
+					break inner
+				}
+			}
+
+			if found {
+				regularString = regularString + string(rune(asI))
+				index = index + len(asChar[0])
+				break
+			} else if !found && asI == 127 {
+				break outer
+			}
+		}
+
+	}
+	return regularString
+}
 
 func ReadAscii(f *os.File) {
 	var tmp [8]string
