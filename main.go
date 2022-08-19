@@ -57,7 +57,7 @@ outer:
 				regularString = regularString + string(rune(asI))
 				index = index + len(asChar[0])
 				break
-			} else if !found && asI == 127 {
+			} else if asI == 127 && !found {
 				break outer
 			}
 		}
