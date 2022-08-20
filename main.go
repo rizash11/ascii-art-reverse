@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	reverseBanner := flag.String("reverse", "file.txt", "Reverses teh file.")
+	reverseBanner := flag.String("reverse", "file.txt", "Reverses the file.")
 	flag.Parse()
 	asciiArtTemplates.ReadTemplates(&Store, "standard")
 
