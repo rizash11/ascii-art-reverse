@@ -17,19 +17,15 @@ func main() {
 	asciiArtTemplates.Check("Error opening the file to be reversed:", err)
 
 	ReadAscii(f)
-
-	for _, asciiString := range AsciiArt {
-		fmt.Println(Decypher(asciiString))
-	}
 }
 
 var (
-	Store    [128][8]string // Переменная для хранения символов из файла
-	AsciiArt [][8]string
+	Store [128][8]string // Переменная для хранения символов из файла
+	// AsciiArt [][8]string
 )
 
-func Decypher(asciiString [8]string) (regularString string) {
-
+func Decypher(asciiString [8]string) {
+	var regularString string
 	index := 0
 
 outer:
@@ -63,7 +59,7 @@ outer:
 		}
 
 	}
-	return regularString
+	fmt.Println(regularString)
 }
 
 func ReadAscii(f *os.File) {
@@ -73,11 +69,17 @@ func ReadAscii(f *os.File) {
 	i := 0
 
 	for scanner.Scan() {
+
+		if len(scanner.Text()) < 4 {
+			fmt.Println()
+			continue
+		}
+
 		tmp[i] = scanner.Text()
 		i++
 
 		if i == 8 {
-			AsciiArt = append(AsciiArt, tmp)
+			Decypher(tmp)
 			i = 0
 		}
 	}
